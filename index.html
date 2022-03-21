@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Calculadora</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+       
+        
+        
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" id="theme-styles">
+        
+        <script>
+            var status_calculadora_ligada=false;
+        </script>
+        
+        <style>
+            body,html{
+                height:100%;
+            }
+            
+            .botoes_numericos{
+                
+                height:50px;
+                width:50px;
+                margin: 3px;
+                
+            }
+            
+        </style>
+        
+        <script>
+            
+            
+            function information_ok(titulo, mensagem, mostrar_confirm_button, timer_em_ms)
+            {
+                Swal.fire({
+                icon: 'sucess',
+                title: titulo,
+                text: mensagem,
+                showConfirmButton: mostrar_confirm_button,
+                timer: timer
+              });
+            }
+            function information_error(titulo, mensagem, mostrar_confirm_button, timer_em_ms)
+            {
+                Swal.fire({
+                icon: 'error',
+                title: titulo,
+                text: mensagem,
+                showConfirmButton: mostrar_confirm_button,
+                timer: timer_em_ms
+              });
+            }
+            
+            function calcular()
+            {
+                
+            }
+            
+            function btn_ligar()
+            {
+                if(status_calculadora_ligada === false)
+                {
+                    document.getElementById('lbl_visor').innerHTML = "0";
+                    status_calculadora_ligada = true;
+                    document.getElementById('div_on_buton').style.display = "inherit";
+                    document.getElementById('div_off_buton').style.display = "none";
+                }
+                else
+                {
+                    information_error('Erro!', 'A calculadora já está ligada', false, '2500');
+                }
+                    
+            }
+            
+            function btn_desligar()
+            {
+                if(status_calculadora_ligada === true)
+                {
+                    document.getElementById('lbl_visor').innerHTML = "";
+                    status_calculadora_ligada = false;
+                    document.getElementById('div_off_buton').style.display = "inherit";
+                    document.getElementById('div_on_buton').style.display = "none";
+                }
+                else
+                {
+                    information_error('Erro!', 'A calculadora já está desligada', false, '2500');
+                }
+                    
+            }
+            
+            
+            function btn_limpar()
+            {
+                if(status_calculadora_ligada === true)
+                {
+                    document.getElementById('lbl_visor').innerHTML = "0";
+                    
+                }
+                else
+                {
+                    information_error('Erro!', 'Ligue a calculadora', false, '2500');
+                }
+                    
+            }
+            
+            function adiciona_digito(n_digitado)
+            {
+                var texto_atual = document.getElementById('lbl_visor').innerHTML;
+                if(status_calculadora_ligada=== true)
+                {
+                    if(texto_atual === "0")
+                    {
+                        document.getElementById('lbl_visor').innerHTML = n_digitado;
+                    }
+                    else
+                    {
+                        document.getElementById('lbl_visor').innerHTML += n_digitado;
+                    }
+                }
+                else
+                {
+                    information_error('Erro!', 'Ligue a calculadora', false, '2500');
+                }
+                
+            }
+            
+            
+            function calcular()
+            {
+                var texto_atual = document.getElementById('lbl_visor').innerHTML;
+                
+                
+                try{
+                    
+                    let soma = eval(texto_atual);
+                    document.getElementById('lbl_visor').innerHTML = soma;
+                }catch(error)
+                {
+                    information_error('Erro!', 'Erro ao calcular numero', false, '2500');
+                }
+                
+            }
+            
+        </script>
+        
+    </head>
+    <body>
+        
+
+        
+        <div class="mt-5 d-flex justify-content-center">
+            
+            
+            <div id="div_calculadora" class="align-self-center rounded" style="width: 100%; max-width: 350px; background-color: rgb(80, 80, 80)">
+                
+                <div id="div_on_buton" style="text-align: end; margin-right: 10px; display: none">
+                    
+                    <button type="button" class="btn btn-success btn-circle btn-sm"> on</button>
+                </div>
+                <div id="div_off_buton" style="text-align: end; margin-right: 10px;">
+                    
+                    <button type="button" class="btn btn-danger btn-circle btn-sm"> off</button>
+                </div>
+                
+                <div id="body_calc"  >
+                    
+                    
+                    
+                    <div id="div_visor" class="mt-3 col-10 border border-success rounded mx-auto" style="height: 70px;background-image: url('https://webartdevelopers.com/blog/wp-content/uploads/2019/02/CSS-Background-Animation-1.gif')">
+                        <h3 id="lbl_visor" style="text-align: center; width: 100%; height: 100%; transform: translateY(20%)"></h3>
+                    </div>
+
+                    <div id="div_grupo_de_botoes" class="mt-3 mb-3 col mx-auto text-center" style="max-width: 400px;">
+
+
+                        <div id="div_botoes_especiais" class="row" >
+
+                            <div id="btn_liga" class="col">
+                                <button type="button" class="btn btn-success w-100" onclick="btn_ligar();">Ligar</button>
+                            </div>
+                            <div id="btn_desliga" class="col">
+                                <button type="button" class="btn btn-danger w-100" onclick="btn_desligar();">Desligar</button>
+                            </div>
+                            <div id="btn_limpa" class="col">
+                                <button type="button" class="btn btn-outline-warning w-100" onclick="btn_limpar();">Limpar</button>
+                            </div>
+
+                        </div>
+
+                        </div>
+                    <div id="div_grupo_de_botoes_numericos" >
+
+                            <table class="mx-auto mb-5 mt-2" style="width: 50%; ">
+                                <tr>
+                                    <td><button id="btn_7"  type="button" class="btn btn-primary botoes_numericos" onclick="adiciona_digito('7');">7</button></td>  
+                                    <td><button id="btn_8"  type="button" class="btn btn-primary botoes_numericos" onclick="adiciona_digito('8');">8</button></td>
+                                    <td><button id="btn_9"  type="button" class="btn btn-primary botoes_numericos" onclick="adiciona_digito('9');">9</button></td>
+                                    <td><button id="btn_subtracao"  type="button" class="btn btn-primary botoes_numericos" onclick="adiciona_digito('-');">-</button></td>
+                                    <td><button id="btn_subtracao"  type="button" class="btn btn-primary botoes_numericos" onclick="adiciona_digito('(');">(</button></td>
+
+                                </tr>
+
+                                <tr>
+                                    <td><button id="btn_4"  type="button" class="btn btn-primary botoes_numericos" onclick="adiciona_digito('4');">4</button></td>  
+                                    <td><button id="btn_5"  type="button" class="btn btn-primary botoes_numericos" onclick="adiciona_digito('5');">5</button></td>
+                                    <td><button id="btn_6"  type="button" class="btn btn-primary botoes_numericos" onclick="adiciona_digito('6');">6</button></td>
+                                    <td><button id="btn_vezes"  type="button" class="btn btn-primary botoes_numericos" onclick="adiciona_digito('*');">*</button></td>
+                                    <td><button id="btn_subtracao"  type="button" class="btn btn-primary botoes_numericos" onclick="adiciona_digito(')');">)</button></td>
+
+                                </tr>
+
+                                <tr>
+                                    <td><button id="btn_1"  type="button" class="btn btn-primary botoes_numericos" onclick="adiciona_digito('1');">1</button></td>  
+                                    <td><button id="btn_2"  type="button" class="btn btn-primary botoes_numericos" onclick="adiciona_digito('2');">2</button></td>
+                                    <td><button id="btn_3"  type="button" class="btn btn-primary botoes_numericos" onclick="adiciona_digito('3');">3</button></td>
+                                    <td><button id="btn_dividir"  type="button" class="btn btn-primary botoes_numericos" onclick="adiciona_digito('/');">/</button></td>
+                                    <td rowspan="2"><button onclick="calcular();" id="btn_igual"  type="button" class="btn btn-primary botoes_numericos" style="height: 106px;">=</button></td>
+                                </tr>
+                                <tr>
+                                    <td><button id="btn_0"  type="button" class="btn btn-primary botoes_numericos" onclick="adiciona_digito('0');">0</button></td>  
+                                    <td><button id="btn_00"  type="button" class="btn btn-primary botoes_numericos" onclick="adiciona_digito('00');">00</button></td>
+                                    <td><button id="btn_ponto"  type="button" class="btn btn-primary botoes_numericos" onclick="adiciona_digito('.');">.</button></td>
+                                    <td><button id="btn_soma"  type="button" class="btn btn-primary botoes_numericos" onclick="adiciona_digito('+');">+</button></td>
+
+                                </tr>
+
+
+
+
+                            </table>
+
+
+
+                        </div>
+
+
+
+
+                    
+                </div>
+            </div>
+      
+        </div>
+        
+        <!--
+       <div class="input-group">
+  <div class="input-group-prepend">
+    <span class="input-group-text">With textarea</span>
+  </div>
+  <textarea class="form-control" aria-label="With textarea"></textarea>
+</div>
+        -->
+        
+    </body>
+</html>
